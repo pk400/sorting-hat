@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
 
 #define NUM_HOUSE 4
@@ -115,4 +116,14 @@ int main() {
     }
 
     house->playSound();
+
+    while(true) {
+        if(sf::Event::KeyPressed) {
+            cout << "yes" << endl;
+        }
+        /*if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+            cout << "Q pressed!" << endl;
+            break;
+        }*/
+    }
 }

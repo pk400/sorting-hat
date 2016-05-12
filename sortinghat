@@ -1,0 +1,49 @@
+#!/bin/bash
+
+house_path="audio/houses/"
+stall_path="audio/stalling/"
+knows_path="audio/know/"
+
+# Choose stall clip
+stall_choice=`echo $RANDOM % 5 | bc`
+case $stall_choice in
+    0) stall_path+="ahright.wav";;
+    1) stall_path+="difficult.wav";;
+    2) stall_path+="itsallhere.wav";;
+    3) stall_path+="rightok.wav";;
+    4) stall_path+="wheretoputyou.wav";;
+esac
+echo "Playing $stall_path"
+aplay $stall_path 2> /dev/null
+
+# Choose know clip
+knows_clip=`echo $RANDOM % 2 | bc`
+case $knows_clip in
+    0) knows_path+="iknow.wav";;
+    1) knows_path+="iknowjustwhattodo.wav";;
+esac
+echo "Playing $knows_path"
+aplay $knows_path 2> /dev/null
+
+# Choose house
+house_choice=`echo $RANDOM % 4 | bc`
+case $house_choice in
+    0) house_path+="gryffindor.wav";;
+    1) house_path+="slytherin.wav";;
+    2) house_path+="hufflepuff.wav";;
+    3) house_path+="ravenclaw.wav";;
+esac
+echo "Playing $house_path"
+aplay $house_path 2> /dev/null
+
+cnt=0
+cat records | while read line
+do
+    record[cnt]=`echo $line | awk -F: '{print $2}'`
+    cnt=$((cnt + 1))
+done
+
+for i in "${record[@]}"
+do
+    echo $i
+done
