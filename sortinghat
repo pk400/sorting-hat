@@ -1,11 +1,16 @@
 #!/bin/bash
 
+# sorting-hat is a program that will sort users into
+# a random Hogwarts House
+
+# Define audio file paths
 house_path="audio/houses/"
 stall_path="audio/stalling/"
 knows_path="audio/know/"
 
 # Choose stall clip
-stall_choice=`echo $RANDOM % 5 | bc`
+num_stall_clips=5
+stall_choice=`echo $RANDOM % $num_stall_clips | bc`
 case $stall_choice in
     0) stall_path+="ahright.wav";;
     1) stall_path+="difficult.wav";;
@@ -13,19 +18,33 @@ case $stall_choice in
     3) stall_path+="rightok.wav";;
     4) stall_path+="wheretoputyou.wav";;
 esac
-echo "Playing $stall_path"
-aplay $stall_path 2> /dev/null
+
+if (( $stall_choice <= $num_stall_clips ))
+then
+    echo "Playing $stall_path"
+    aplay $stall_path 2> /dev/null
+else
+    echo "Skipping stall clip"
+fi
 
 # Choose know clip
-knows_clip=`echo $RANDOM % 2 | bc`
+num_knows_clips=2
+knows_clip=`echo $RANDOM % $num_knows_clips | bc`
 case $knows_clip in
     0) knows_path+="iknow.wav";;
     1) knows_path+="iknowjustwhattodo.wav";;
 esac
-echo "Playing $knows_path"
-aplay $knows_path 2> /dev/null
+
+if (( $knows_choice <= $num_knows_clips ))
+then
+    echo "Playing $knows_path"
+    aplay $knows_path 2> /dev/null
+else
+    echo "Skipping knows clip"
+fi
 
 # Choose house
+num_house_clips=4
 house_choice=`echo $RANDOM % 4 | bc`
 case $house_choice in
     0) house_path+="gryffindor.wav";;
@@ -33,17 +52,11 @@ case $house_choice in
     2) house_path+="hufflepuff.wav";;
     3) house_path+="ravenclaw.wav";;
 esac
-echo "Playing $house_path"
-aplay $house_path 2> /dev/null
 
-cnt=0
-cat records | while read line
-do
-    record[cnt]=`echo $line | awk -F: '{print $2}'`
-    cnt=$((cnt + 1))
-done
-
-for i in "${record[@]}"
-do
-    echo $i
-done
+if (( $house_choice <= $num_house_clips ))
+then
+    echo "Playing $house_path"
+    aplay $house_path 2> /dev/null
+else
+    echo "Skipping house clips"
+fi
